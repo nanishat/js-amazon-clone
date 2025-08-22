@@ -25,7 +25,7 @@ products.forEach((product) => {
         </div>
 
         <div class="product-quantity-container">
-          <select>
+          <select class="js-quantity-selector-${product.id}">
             <option selected value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -63,6 +63,10 @@ document.querySelectorAll('.js-add-to-cart')
       //getting product name from data-attribute 'data-product-name' on the genereted html...
       const productId = button.dataset.productId;
 
+      //cart quantity selector
+      const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
+      const quantity = Number(dropDown.value);
+
       let matchingItem;
 
       cart.forEach((item) => {
@@ -75,11 +79,11 @@ document.querySelectorAll('.js-add-to-cart')
 
       //if we did find a productID/productId in the item, it will be stored in the matchingItem, eventually it will return truthy value
       if (matchingItem) {
-        matchingItem.quantity += 1;
+        matchingItem.quantity += quantity;
       } else {
         cart.push({
           productId: productId,
-          quantity: 1
+          quantity: quantity
         });
       }
 
