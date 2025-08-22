@@ -2,8 +2,8 @@ let productsHTML = '';
 
 //code for generate html for each product from products
 products.forEach((product) => {
-    productsHTML +=
-        `
+  productsHTML +=
+    `
         <div class="product-container">
         <div class="product-image-container">
           <img class="product-image" src="${product.image}">
@@ -46,7 +46,8 @@ products.forEach((product) => {
           Added
         </div>
 
-        <button class="add-to-cart-button button-primary">
+        <button class="add-to-cart-button button-primary js-add-to-cart"
+        data-product-id="${product.id}">
           Add to Cart
         </button>
       </div>
@@ -54,4 +55,34 @@ products.forEach((product) => {
 });
 
 document.querySelector('.js-products-grid')
-    .innerHTML = productsHTML;
+  .innerHTML = productsHTML;
+
+document.querySelectorAll('.js-add-to-cart')
+  .forEach((button) => {
+    button.addEventListener('click', () => {
+      //getting product name from data-attribute 'data-product-name' on the genereted html...
+      const productId = button.dataset.productId;
+
+      let matchingItem;
+
+      cart.forEach((item) => {
+        //item = productId and quantity; as we pushed it
+        if (productId === item.productId) {
+          //if product has found in the item, we can store that product into a variable
+          matchingItem = item;
+        }
+      });
+
+      //if we did find a productID/productId in the item, it will be stored in the matchingItem, eventually it will return truthy value
+      if (matchingItem) {
+        matchingItem.quantity += 1;
+      } else {
+        cart.push({
+          productId: productId,
+          quantity: 1
+        });
+      }
+
+      console.log(cart);
+    });
+  });
