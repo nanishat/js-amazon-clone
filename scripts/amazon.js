@@ -41,7 +41,7 @@ products.forEach((product) => {
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart">
+        <div class="added-to-cart js-added-to-cart-${product.id}">
           <img src="images/icons/checkmark.png">
           Added
         </div>
@@ -61,41 +61,83 @@ document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
       //getting product name from data-attribute 'data-product-name' on the genereted html...
-      const productId = button.dataset.productId;
+      //const productId = button.dataset.productId;
 
-      //cart quantity selector
-      const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
-      const quantity = Number(dropDown.value);
+      //using destructuring
+      const { productId } = button.dataset;
 
-      let matchingItem;
-
-      cart.forEach((item) => {
-        //item = productId and quantity; as we pushed it
-        if (productId === item.productId) {
-          //if product has found in the item, we can store that product into a variable
-          matchingItem = item;
-        }
-      });
-
-      //if we did find a productID/productId in the item, it will be stored in the matchingItem, eventually it will return truthy value
-      if (matchingItem) {
-        matchingItem.quantity += quantity;
-      } else {
-        cart.push({
-          productId: productId,
-          quantity: quantity
-        });
-      }
-
-      //to change total cart at the top right corner
-      let cartQuantity = 0;
-
-      cart.forEach((item) => {
-        cartQuantity += item.quantity;
-      });
-
-      document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity;
+      updateCart(productId);
+      updateCartQuantityUI();
+      addedTextFeature(productId);
 
     });
   });
+
+
+// Function: update cart based on productId and dropdown
+function updateCart(productId) {
+  //cart quantity selector
+  const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
+  const quantity = Number(dropDown.value);
+
+  let matchingItem;
+
+  cart.forEach((item) => {
+    //item = productId and quantity; as we pushed it
+    if (productId === item.productId) {
+      //if product has found in the item, we can store that product into a variable
+      matchingItem = item;
+    }
+  });
+
+  //if we did find a productID/productId in the item, it will be stored in the matchingItem, eventually it will return truthy value
+  if (matchingItem) {
+    matchingItem.quantity += quantity;
+  } else {
+    cart.push({
+      //productId: productId,
+      //quantity: quantity
+
+      //using shorthand
+      productId,
+      quantity
+    });
+  }
+}
+
+// Function: update cart quantity on UI
+function updateCartQuantityUI() {
+  let cartQuantity = 0;
+
+  cart.forEach((item) => {
+    cartQuantity += item.quantity;
+  });
+
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
+}
+
+//an empty object to store each products timeout
+const addedMessageTimeouts = {};
+
+// Function: show 'Added' message based on productId
+function addedTextFeature(productId) {
+
+  const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+  addedMessage.classList.add('added-to-cart-visible');
+
+  //check, if there's a previous timeout for this product, If there is, we should stop it
+  const previousTimeoutID = addedMessageTimeouts[productId];
+
+  if (previousTimeoutID) {
+    clearTimeout(previousTimeoutID);
+  }
+
+  const timeoutID = setTimeout(() => {
+    addedMessage.classList.remove('added-to-cart-visible');
+  }, 2000);
+
+  //saving the timeoutID for this prodcut, so we can stop it later if we need to...
+  addedMessageTimeouts[productId] = timeoutID;
+  //console.log(addedMessageTimeouts); //you can observe it
+}
