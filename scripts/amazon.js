@@ -1,3 +1,6 @@
+import { cart } from '../data/cart.js';
+import { products } from '../data/products.js';
+
 let productsHTML = '';
 
 //code for generate html for each product from products
@@ -60,7 +63,7 @@ document.querySelector('.js-products-grid')
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
-      //getting product name from data-attribute 'data-product-name' on the genereted html...
+      //getting product name from data-attribute 'data-product-name' from the genereted html...
       //const productId = button.dataset.productId;
 
       //using destructuring
@@ -76,21 +79,20 @@ document.querySelectorAll('.js-add-to-cart')
 
 // Function: update cart based on productId and dropdown
 function updateCart(productId) {
-  //cart quantity selector
   const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
   const quantity = Number(dropDown.value);
 
   let matchingItem;
 
-  cart.forEach((item) => {
-    //item = productId and quantity; as we pushed it
-    if (productId === item.productId) {
-      //if product has found in the item, we can store that product into a variable
-      matchingItem = item;
+  cart.forEach((cartItem) => {
+    //cartItem = productId and quantity; as we pushed it
+    if (productId === cartItem.productId) {
+      //if product has found in the cartItem, we can store that product into a variable
+      matchingItem = cartItem;
     }
   });
 
-  //if we did find a productID/productId in the item, it will be stored in the matchingItem, eventually it will return truthy value
+  //if we did find a productID/productId in the cartItem, it will be stored in the matchingItem, eventually it will return truthy value
   if (matchingItem) {
     matchingItem.quantity += quantity;
   } else {
@@ -109,8 +111,8 @@ function updateCart(productId) {
 function updateCartQuantityUI() {
   let cartQuantity = 0;
 
-  cart.forEach((item) => {
-    cartQuantity += item.quantity;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
   });
 
   document.querySelector('.js-cart-quantity')
