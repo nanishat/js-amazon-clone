@@ -1,6 +1,7 @@
 import { cart, updateCart, addedTextFeature } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+import { countQuantity } from './utils/countQuantity.js';
 
 let productsHTML = '';
 
@@ -79,12 +80,7 @@ document.querySelectorAll('.js-add-to-cart')
 
 // Function: update cart quantity on UI
 function updateCartQuantityUI() {
-  let cartQuantity = 0;
-
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
-
+  const cartQuantity = countQuantity(cart);
   document.querySelector('.js-cart-quantity')
     .innerHTML = cartQuantity;
 }
