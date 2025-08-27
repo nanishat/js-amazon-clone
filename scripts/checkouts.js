@@ -5,8 +5,6 @@ import { countQuantity } from './utils/countQuantity.js';
 
 let cartSummaryHTML = '';
 
-const cartQuantity = countQuantity(cart);
-
 cart.forEach((cartItem) => {
 
     const productId = cartItem.productId;
@@ -107,13 +105,18 @@ document.querySelectorAll('.js-delete-link')
                 `.js-cart-item-container-${productId}`
             );
             container.remove();
+            updateCartQuantityUI();
         });
     });
 
-
-const checkoutItem = document.querySelector('.js-return-to-home-link');
-if (cartQuantity < 2) {
-    checkoutItem.innerHTML = `${cartQuantity} item`;
-} else {
-    checkoutItem.innerHTML = `${cartQuantity} items`;
+function updateCartQuantityUI() {
+    const cartQuantity = countQuantity(cart);
+    const checkoutItem = document.querySelector('.js-return-to-home-link');
+    if (cartQuantity < 2) {
+        checkoutItem.innerHTML = `${cartQuantity} item`;
+    } else {
+        checkoutItem.innerHTML = `${cartQuantity} items`;
+    }
 }
+
+updateCartQuantityUI();

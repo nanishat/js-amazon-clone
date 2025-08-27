@@ -84,3 +84,5 @@ function updateCartQuantityUI() {
   document.querySelector('.js-cart-quantity')
     .innerHTML = cartQuantity;
 }
+
+updateCartQuantityUI();
