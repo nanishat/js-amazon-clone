@@ -38,12 +38,12 @@ cart.forEach((cartItem) => {
             <span>
                 Quantity: <span class="quantity-label">${cartItem.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary">
-                Update
-            </span>
-            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
-                Delete
-            </span>
+            <span class="update-quantity-link link-primary js-update-link" 
+            data-product-id="${matchingProduct.id}">Update</span>
+            <input class="quantity-input">
+            <span class="save-quantity-link link-primary">Save</span>
+            <span class="delete-quantity-link link-primary js-delete-link"
+            data-product-id="${matchingProduct.id}">Delete</span>
             </div>
         </div>
 
@@ -93,22 +93,9 @@ cart.forEach((cartItem) => {
 document.querySelector('.js-order-summary')
     .innerHTML = cartSummaryHTML;
 
-document.querySelectorAll('.js-delete-link')
-    .forEach((link) => {
-        link.addEventListener('click', () => {
-            //explaination: link is connected to the 
-            // .js-delete-link, for that we can get the dataset alongside with productId...which can be saved in local variable for future use... 
-            const productId = link.dataset.productId;
-            removeFromCart(productId);
+updateCartQuantityUI();
 
-            const container = document.querySelector(
-                `.js-cart-item-container-${productId}`
-            );
-            container.remove();
-            updateCartQuantityUI();
-        });
-    });
-
+// Function: update the cart quantity on the checkout ( 0 items )
 function updateCartQuantityUI() {
     const cartQuantity = countQuantity(cart);
     const checkoutItem = document.querySelector('.js-return-to-home-link');
@@ -119,4 +106,32 @@ function updateCartQuantityUI() {
     }
 }
 
-updateCartQuantityUI();
+
+document.querySelectorAll('.js-delete-link')
+    .forEach((link) => {
+        link.addEventListener('click', () => {
+            //explaination: link is connected to the 
+            // .js-delete-link, for that we can get the dataset alongside with productId...which can be saved in local variable for future use... 
+            const { productId } = link.dataset;
+            removeFromCart(productId);
+
+            const container = document.querySelector(
+                `.js-cart-item-container-${productId}`
+            );
+            container.remove();
+            updateCartQuantityUI();
+        });
+    });
+
+document.querySelectorAll('.js-update-link')
+    .forEach((link) => {
+        link.addEventListener('click', () => {
+            const { productId } = link.dataset;
+
+            const container = document.querySelector(
+                `.js-cart-item-container-${productId}`
+            );
+
+            container.classList.add('is-editing-quantity');
+        });
+    });
