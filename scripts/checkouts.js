@@ -141,23 +141,44 @@ document.querySelectorAll('.js-update-link')
 // save button
 document.querySelectorAll('.js-save-link')
     .forEach((link) => {
+
+        const { productId } = link.dataset;
+        const inputElement = document.querySelector(`.js-quantity-input-${productId}`);
+
+        //click event
         link.addEventListener('click', () => {
-            const { productId } = link.dataset;
+            handleUpdateQuantity(productId, inputElement);
+        });
 
-            const container = document.querySelector(
-                `.js-cart-item-container-${productId}`
-            );
-
-            container.classList.remove('is-editing-quantity');
-
-            const inputElement = document.querySelector(`.js-quantity-input-${productId}`);
-            const newQuantity = Number(inputElement.value);
-
-            updateQuantity(productId, newQuantity);
-
-            const quantityLabel = document.querySelector(`.js-quantity-label${productId}`);
-            quantityLabel.innerHTML = newQuantity;
-
-            updateCartQuantityUI();
+        //keydown event
+        inputElement.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                handleUpdateQuantity(productId, inputElement);
+            }
         });
     });
+
+
+function handleUpdateQuantity(productId, inputElement) {
+    const newQuantity = Number(inputElement.value);
+
+    //validation with early return
+    if (newQuantity <= 0 || newQuantity >= 1000) {
+        alert('Quantity must be at least 0 and less than 1000');
+        return;
+    }
+
+    //this works for both, onclick and keydown
+    updateQuantity(productId, newQuantity);
+
+    //update in UI
+    const quantityLabel = document.querySelector(`.js-quantity-label${productId}`);
+    quantityLabel.innerHTML = newQuantity;
+    updateCartQuantityUI();
+
+    //works on while editing quantity and removes classList
+    const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+    );
+    container.classList.remove('is-editing-quantity');
+}
