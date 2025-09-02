@@ -1,9 +1,9 @@
 import { cart, removeFromCart, updateQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
+import { formatCurrency } from './utils/formateCurrency.js';
 import { countQuantity } from './utils/countQuantity.js';
-import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
-import { delivaryOptions } from '../data/delivaryOptions.js';
+import { formatDate } from './utils/formatDate.js';
+import { deliveryOptions } from '../data/deliveryOptions.js';
 
 let cartSummaryHTML = '';
 
@@ -54,7 +54,7 @@ cart.forEach((cartItem) => {
             <div class="delivery-options-title">
             Choose a delivery option:
             </div>
-            ${delivaryOptionsHTML(matchingProduct)}
+            ${deliveryOptionsHTML(matchingProduct, cartItem)}
             </div>
         </div>
         </div>
@@ -62,27 +62,21 @@ cart.forEach((cartItem) => {
     `;
 });
 
-function delivaryOptionsHTML(matchingProduct) {
+//delivery option generated HTML
+function deliveryOptionsHTML(matchingProduct, cartItem) {
     let html = '';
-    delivaryOptions.forEach((delivaryOption) => {
-        const today = dayjs();
-        const delivaryDate = today.add(
-            delivaryOption.delivaryDays,
-            'days'
-        );
+    deliveryOptions.forEach((deliveryOption) => {
+        const dateString = formatDate(deliveryOption);
 
-        const dateString = delivaryDate.format(
-            'dddd, MMMM D'
-        );
-
-        const priceString = delivaryOption.priceCents === 0
+        const priceString = deliveryOption.priceCents === 0
             ? 'FREE'
-            : `$${formatCurrency(delivaryOption.priceCents)} -`;
+            : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
+        const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
         html += `
             <div class="delivery-option">
-                <input type="radio" class="delivery-option-input" name="delivery-option-${matchingProduct.id}">
+                <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input" name="delivery-option-${matchingProduct.id}">
                 <div>
                     <div class="delivery-option-date">
                     ${dateString}
