@@ -3,6 +3,12 @@ import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 import { countQuantity } from './utils/countQuantity.js';
 
+const today = dayjs();
+const delivaryDate = today.add(7, 'days');
+
+delivaryDate.format('dddd, MMMM D');
+
+
 let cartSummaryHTML = '';
 
 cart.forEach((cartItem) => {
