@@ -11,19 +11,32 @@ cart.forEach((cartItem) => {
 
     const productId = cartItem.productId;
 
+    //check if the product id matches
     let matchingProduct;
-
     products.forEach((product) => {
         if (product.id === productId) {
             matchingProduct = product;
         }
     });
 
+    //checkif the delivery option id matches
+    const deliveryOptionId = cartItem.deliveryOptionId;
+
+    let deliveryOption;
+    deliveryOptions.forEach((option) => {
+        if (option.id === deliveryOptionId) {
+            deliveryOption = option;
+        }
+    });
+
+    const dateString = formatDate(deliveryOption);
+
+
     cartSummaryHTML += `
     <div class="cart-item-container 
         js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">
-        Delivery date: Tuesday, June 21
+        Delivery date: ${dateString}
         </div>
 
         <div class="cart-item-details-grid">
@@ -72,7 +85,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
             ? 'FREE'
             : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
-        const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
+        const isChecked = (deliveryOption.id === cartItem.deliveryOptionId);
 
         html += `
             <div class="delivery-option">
