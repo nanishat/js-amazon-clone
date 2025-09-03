@@ -5,7 +5,7 @@ import { countQuantity } from '../utils/countQuantity.js';
 import { formatDate } from '../utils/formatDate.js';
 import { deliveryOptions } from '../../data/deliveryOptions.js';
 
-export function renderOrderSummery() {
+export function renderOrderSummary() {
   let cartSummaryHTML = '';
 
   cart.forEach((cartItem) => {
@@ -205,7 +205,7 @@ export function renderOrderSummery() {
       element.addEventListener('click', () => {
         const { productId, deliveryOptionId } = element.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
-        renderOrderSummery();
+        renderOrderSummary();
       });
     });
 }
