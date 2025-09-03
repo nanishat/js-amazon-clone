@@ -1,34 +1,22 @@
 import { cart, removeFromCart, updateQuantity, updateDeliveryOption } from '../../data/cart.js';
-import { products } from '../../data/products.js';
+import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/formateCurrency.js';
 import { countQuantity } from '../utils/countQuantity.js';
 import { formatDate } from '../utils/formatDate.js';
-import { deliveryOptions } from '../../data/deliveryOptions.js';
+import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
 
 export function renderOrderSummary() {
   let cartSummaryHTML = '';
 
   cart.forEach((cartItem) => {
 
+    //check if the product-id matches
     const productId = cartItem.productId;
+    const matchingProduct = getProduct(productId);
 
-    //check if the product id matches
-    let matchingProduct;
-    products.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product;
-      }
-    });
-
-    //checkif the delivery option id matches
+    //check if the delivery-option-id matches
     const deliveryOptionId = cartItem.deliveryOptionId;
-
-    let deliveryOption;
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const dateString = formatDate(deliveryOption);
 
