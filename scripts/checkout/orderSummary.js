@@ -4,6 +4,7 @@ import { formatCurrency } from '../utils/formateCurrency.js';
 import { countQuantity } from '../utils/countQuantity.js';
 import { formatDate } from '../utils/formatDate.js';
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 export function renderOrderSummary() {
   let cartSummaryHTML = '';
@@ -125,7 +126,9 @@ export function renderOrderSummary() {
           `.js-cart-item-container-${productId}`
         );
         container.remove();
+
         updateCartQuantityUI();
+        renderPaymentSummary();
       });
     });
 
@@ -186,14 +189,18 @@ export function renderOrderSummary() {
       `.js-cart-item-container-${productId}`
     );
     container.classList.remove('is-editing-quantity');
+
+    renderPaymentSummary();
   }
 
+  //this piece of code helps to render order-summary as well as payment-summary
   document.querySelectorAll('.js-delivery-option')
     .forEach((element) => {
       element.addEventListener('click', () => {
         const { productId, deliveryOptionId } = element.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
+        renderPaymentSummary();
       });
     });
 }
