@@ -1,10 +1,10 @@
 import { cart, removeFromCart, updateQuantity, updateDeliveryOption } from '../../data/cart.js';
-import { products, getProduct } from '../../data/products.js';
+import { getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/formateCurrency.js';
-import { countQuantity } from '../utils/countQuantity.js';
 import { formatDate } from '../utils/formatDate.js';
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
+import { updateCartQuantityUI } from '../utils/cartView.js';
 
 export function renderOrderSummary() {
   let cartSummaryHTML = '';
@@ -102,17 +102,6 @@ export function renderOrderSummary() {
 
   updateCartQuantityUI();
 
-  // Function: update the cart quantity on the checkout ( 0 items )
-  function updateCartQuantityUI() {
-    const cartQuantity = countQuantity(cart);
-    const checkoutItem = document.querySelector('.js-return-to-home-link');
-    if (cartQuantity < 2) {
-      checkoutItem.innerHTML = `${cartQuantity} item`;
-    } else {
-      checkoutItem.innerHTML = `${cartQuantity} items`;
-    }
-  }
-
   // delete button
   document.querySelectorAll('.js-delete-link')
     .forEach((link) => {
@@ -127,6 +116,7 @@ export function renderOrderSummary() {
         // );
         // container.remove();
 
+        //instead of deleting, rerendering from cart
         updateCartQuantityUI();
         renderOrderSummary();
         renderPaymentSummary();
