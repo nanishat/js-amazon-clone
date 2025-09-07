@@ -1,15 +1,21 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart;
 
-if (!cart) {
-  cart = [{
-    productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-    quantity: 2,
-    deliveryOptionId: '1'
-  }, {
-    productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-    quantity: 1,
-    deliveryOptionId: '2'
-  }];
+loadFromStorage();
+
+export function loadFromStorage() {
+  cart = JSON.parse(localStorage.getItem('cart'));
+
+  if (!cart) {
+    cart = [{
+      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+      quantity: 2,
+      deliveryOptionId: '1'
+    }, {
+      productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+      quantity: 1,
+      deliveryOptionId: '2'
+    }];
+  }
 }
 
 //save cart to the localStorage
@@ -18,12 +24,11 @@ function saveToStorage() {
 }
 
 // Function: update cart based on productId and dropdown
-export function updateCart(productId) {
-  const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
-  const quantity = Number(dropDown.value);
+export function updateCart(productId, quantity) {
+  let matchingItem = cart.find(item => item.productId === productId);
 
+  /*
   let matchingItem;
-
   cart.forEach((cartItem) => {
     //cartItem = productId and quantity; as we pushed it
     if (productId === cartItem.productId) {
@@ -31,6 +36,7 @@ export function updateCart(productId) {
       matchingItem = cartItem;
     }
   });
+  */
 
   //if we did find a productID/productId in the cartItem, it will be stored in the matchingItem, eventually it will return truthy value
   if (matchingItem) {

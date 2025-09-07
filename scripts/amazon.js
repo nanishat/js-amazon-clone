@@ -71,7 +71,11 @@ document.querySelectorAll('.js-add-to-cart')
       //using destructuring
       const { productId } = button.dataset;
 
-      updateCart(productId);
+      //
+      const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
+      const quantity = Number(dropDown.value);
+
+      updateCart(productId, quantity);
       updateCartQuantityUI();
       addedTextFeature(productId);
 
