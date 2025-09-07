@@ -24,8 +24,10 @@ function saveToStorage() {
 }
 
 // Function: update cart based on productId and dropdown
-export function updateCart(productId, quantity) {
-  let matchingItem = cart.find(item => item.productId === productId);
+export function updateCart(productId, quantity = 1) {
+  //gave a default value quantity = 1, to avoid undefined
+
+  let matchingItem = cart.find(cartItem => cartItem.productId === productId);
 
   /*
   let matchingItem;

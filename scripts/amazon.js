@@ -71,7 +71,7 @@ document.querySelectorAll('.js-add-to-cart')
       //using destructuring
       const { productId } = button.dataset;
 
-      //
+      //moved these two lines of code from cart.js -> updateCart function to here, in order to achieve loosely coupled feature
       const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
       const quantity = Number(dropDown.value);
 
