@@ -44,7 +44,7 @@ function Cart(localStorageKey) {
       const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
       addedMessage.classList.add('added-to-cart-visible');
 
-      const previousTimeoutID = addedMessageTimeouts[productId];
+      const previousTimeoutID = this.addedMessageTimeouts[productId];
       if (previousTimeoutID) {
         clearTimeout(previousTimeoutID);
       }
@@ -52,7 +52,7 @@ function Cart(localStorageKey) {
         addedMessage.classList.remove('added-to-cart-visible');
       }, 2000);
 
-      addedMessageTimeouts[productId] = timeoutID;
+      this.addedMessageTimeouts[productId] = timeoutID;
     },
 
     removeFromCart(productId) {
