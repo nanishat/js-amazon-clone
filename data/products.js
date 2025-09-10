@@ -1,3 +1,5 @@
+import { formatCurrency } from "../scripts/utils/formatCurrency.js";
+
 //Function: check if the product-id matches
 export function getProduct(productId) {
   let matchingProduct;
@@ -9,6 +11,30 @@ export function getProduct(productId) {
 
   //return the matchingProduct
   return matchingProduct;
+}
+
+class Product {
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+  }
+
+  getStarsURL() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+  getPrice() {
+    return `$${formatCurrency(this.priceCents)}`;
+  }
 }
 
 export const products = [
@@ -699,4 +725,6 @@ export const products = [
       "backpack"
     ]
   },
-];
+].map((productDetails) => {
+  return new Product(productDetails);
+});
