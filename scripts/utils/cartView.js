@@ -1,5 +1,5 @@
 import { countQuantity } from "./countQuantity.js";
-import { cart } from '../../data/cart.js';
+import { cart } from '../../data/cart-class.js';
 
 // Function: update the cart quantity on the checkout-header-section
 //  ( 0 items )

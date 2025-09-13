@@ -1,4 +1,4 @@
-import { cart, removeFromCart, updateQuantity, updateDeliveryOption } from '../../data/cart.js';
+import { cart } from '../../data/cart-class.js';
 import { getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { formatDate } from '../utils/formatDate.js';
@@ -9,7 +9,7 @@ import { updateCartQuantityUI } from '../utils/cartView.js';
 export function renderOrderSummary() {
   let cartSummaryHTML = '';
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
 
     //check if the product-id matches
     const productId = cartItem.productId;
@@ -116,7 +116,7 @@ export function renderOrderSummary() {
         //explaination: link is connected to the 
         // .js-delete-link, for that we can get the dataset alongside with productId...which can be saved in local variable for future use... 
         const { productId } = link.dataset;
-        removeFromCart(productId);
+        cart.removeFromCart(productId);
 
         // const container = document.querySelector(
         //   `.js-cart-item-container-${productId}`
@@ -175,7 +175,7 @@ export function renderOrderSummary() {
     }
 
     //this works for both, onclick and keydown
-    updateQuantity(productId, newQuantity);
+    cart.updateQuantity(productId, newQuantity);
 
     //update in UI
     const quantityLabel = document.querySelector(`.js-quantity-label${productId}`);
@@ -196,7 +196,7 @@ export function renderOrderSummary() {
     .forEach((element) => {
       element.addEventListener('click', () => {
         const { productId, deliveryOptionId } = element.dataset;
-        updateDeliveryOption(productId, deliveryOptionId);
+        cart.updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
         renderPaymentSummary();
       });

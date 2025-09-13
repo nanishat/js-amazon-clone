@@ -1,6 +1,6 @@
-import { cart, updateCart, addedTextFeature } from '../data/cart.js';
+//import { cart, updateCart, addedTextFeature } from '../data/cart.js';
+import { cart } from '../data/cart-class.js';
 import { products } from '../data/products.js';
-import { formatCurrency } from './utils/formatCurrency.js';
 import { countQuantity } from './utils/countQuantity.js';
 
 let productsHTML = '';
@@ -77,9 +77,9 @@ document.querySelectorAll('.js-add-to-cart')
       const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
       const quantity = Number(dropDown.value);
 
-      updateCart(productId, quantity);
+      cart.updateCart(productId, quantity);
       updateCartQuantityUI();
-      addedTextFeature(productId);
+      cart.addedTextFeature(productId);
 
     });
   });
