@@ -1,14 +1,20 @@
-//import { cart, updateCart, addedTextFeature } from '../data/cart.js';
 import { cart } from '../data/cart-class.js';
-import { products } from '../data/products.js';
+import { products, loadProducts } from '../data/products.js';
 import { countQuantity } from './utils/countQuantity.js';
 
-let productsHTML = '';
+loadProducts(renderProductsGrid);
 
-//code for generate html for each product from products
-products.forEach((product) => {
-  productsHTML +=
-    `
+// callback function -> renderProductsGrid()
+// this function will run in the future, after loading products successfully
+
+function renderProductsGrid() {
+
+  let productsHTML = '';
+
+  //code for generate html for each product from products
+  products.forEach((product) => {
+    productsHTML +=
+      `
         <div class="product-container">
         <div class="product-image-container">
           <img class="product-image" src="${product.image}">
@@ -59,36 +65,37 @@ products.forEach((product) => {
         </button>
       </div>
     `;
-});
-
-document.querySelector('.js-products-grid')
-  .innerHTML = productsHTML;
-
-document.querySelectorAll('.js-add-to-cart')
-  .forEach((button) => {
-    button.addEventListener('click', () => {
-      //getting product name from data-attribute 'data-product-name' from the genereted html...
-      //const productId = button.dataset.productId;
-
-      //using destructuring
-      const { productId } = button.dataset;
-
-      //moved these two lines of code from cart.js -> updateCart function to here, in order to achieve loosely coupled feature
-      const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
-      const quantity = Number(dropDown.value);
-
-      cart.updateCart(productId, quantity);
-      updateCartQuantityUI();
-      cart.addedTextFeature(productId);
-
-    });
   });
 
-// Function: update cart quantity on UI
-function updateCartQuantityUI() {
-  const cartQuantity = countQuantity(cart);
-  document.querySelector('.js-cart-quantity')
-    .innerHTML = cartQuantity;
-}
+  document.querySelector('.js-products-grid')
+    .innerHTML = productsHTML;
 
-updateCartQuantityUI();
+  document.querySelectorAll('.js-add-to-cart')
+    .forEach((button) => {
+      button.addEventListener('click', () => {
+        //getting product name from data-attribute 'data-product-name' from the genereted html...
+        //const productId = button.dataset.productId;
+
+        //using destructuring
+        const { productId } = button.dataset;
+
+        //moved these two lines of code from cart.js -> updateCart function to here, in order to achieve loosely coupled feature
+        const dropDown = document.querySelector(`.js-quantity-selector-${productId}`);
+        const quantity = Number(dropDown.value);
+
+        cart.updateCart(productId, quantity);
+        updateCartQuantityUI();
+        cart.addedTextFeature(productId);
+
+      });
+    });
+
+  // Function: update cart quantity on UI
+  function updateCartQuantityUI() {
+    const cartQuantity = countQuantity(cart);
+    document.querySelector('.js-cart-quantity')
+      .innerHTML = cartQuantity;
+  }
+
+  updateCartQuantityUI();
+}
