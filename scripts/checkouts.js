@@ -4,7 +4,23 @@ import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { loadCart } from "../data/cart.js";
 
-//runs multiple promises at the same time
+async function loadPage() {
+  await loadProductsFetch();
+
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  });
+
+  renderCheckoutHeader();
+  renderOrderSummary();
+  renderPaymentSummary();
+}
+
+loadPage();
+
+/* runs multiple promises at the same time
 Promise.all([
   //just because, fetch can return a new promise from over there, we can reduce some extra code like resolve here...
   loadProductsFetch(),
@@ -15,11 +31,11 @@ Promise.all([
   })
 
 ]).then((value) => {
-  console.log(value);
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
 });
+*/
 
 /* example of promises
 new Promise((resolve) => {
@@ -70,4 +86,9 @@ new Promise((resolve) => {
   console.log('next step');
 })
 
+*/
+
+/* async-await description
+-> shortcut for promises
+-> let us write asynchronous code like normal code
 */
