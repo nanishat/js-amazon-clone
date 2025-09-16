@@ -5,13 +5,24 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { loadCart } from "../data/cart.js";
 
 async function loadPage() {
-  await loadProductsFetch();
+  try {
+    //throw 'error 1';
 
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
+    await loadProductsFetch();
+
+    await new Promise((resolve, reject) => {
+      //throw 'error 2';
+
+      //reject is a function, given by Promise class...where we can use it to run an error in future...
+      loadCart(() => {
+        //reject('error 3');
+        resolve();
+      });
     });
-  });
+  } catch (error) {
+    console.log('Unexpected error. Please try again later.');
+    console.log(error);
+  }
 
   renderCheckoutHeader();
   renderOrderSummary();

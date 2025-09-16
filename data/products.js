@@ -88,7 +88,7 @@ export let products = [];
 //using fetch, loading products from backend
 export function loadProductsFetch() {
   //here, fetch by default sends a 'GET' request to the backend...fetch() is going to create a promise and we can use .then...it helps us to use against call back functions...
-  const promise = fetch('https://supersimplebackend.dev/products')
+  return fetch('https://supersimplebackend.dev/products')
     .then((response) => {
       //response.json() -> returns a new promise
       return response.json();
@@ -104,11 +104,14 @@ export function loadProductsFetch() {
       });
 
       console.log('load products success!');
+
+    }).catch((error) => {
+      console.log('Unexpected error. Please try again later.');
+      console.log(error);
     });
-  return promise;
 }
 
-/* using callBack, loading products from backend
+// using callBack, loading products from backend
 export function loadProducts(func) {
   const xhr = new XMLHttpRequest();
 
@@ -128,12 +131,17 @@ export function loadProducts(func) {
     func();
   });
 
+  xhr.addEventListener('error', (error) => {
+    console.log('Unexpected error. Please try again later.');
+    console.log(error);
+  });
+
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 }
-*/
 
-/*
+
+/* raw data
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
