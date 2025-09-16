@@ -2,10 +2,75 @@ import { loadProducts } from "../data/products.js";
 import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
+import { loadCart } from "../data/cart.js";
 
-loadProducts(() => {
+//runs multiple promises at the same time
+Promise.all([
+  new Promise((resolve) => {
+    loadProducts(() => {
+      resolve('ola!');
+    });
+  }),
+  new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  })
+
+]).then((value) => {
+  console.log(value);
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
 });
 
+/* example of promises
+new Promise((resolve) => {
+  loadProducts(() => {
+    resolve('ola!');
+  });
+}).then((val) => {
+
+  console.log(val);
+
+  return new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  }).then(() => {
+    renderCheckoutHeader();
+    renderOrderSummary();
+    renderPaymentSummary();
+  });
+})
+*/
+
+/* example of callback hell
+loadProducts(() => {
+  loadCart(() => {
+    renderCheckoutHeader();
+    renderOrderSummary();
+    renderPaymentSummary();
+  });
+});
+*/
+
+/* Promise description
+Promise() is a class, it runs the inner function immediatley...
+'resolve()' is a function
+-> similer to done() function from jasmine
+-> let us control when to go to the next step
+
+while Promise start a code right away to execute, resolve is just like a friend who holds a flag, and wait for that function which is inside of Promise class is to finish first, then we go to 'next step'...
+
+new Promise((resolve) => {
+  console.log('start promise');
+  loadProducts(() => {
+    console.log('finished loading');
+    resolve();
+  });
+}).then(() => {
+  console.log('next step');
+})
+
+*/
