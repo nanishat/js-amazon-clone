@@ -1,4 +1,4 @@
-import { loadProducts } from "../data/products.js";
+import { loadProductsFetch } from "../data/products.js";
 import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
@@ -6,11 +6,8 @@ import { loadCart } from "../data/cart.js";
 
 //runs multiple promises at the same time
 Promise.all([
-  new Promise((resolve) => {
-    loadProducts(() => {
-      resolve('ola!');
-    });
-  }),
+  //just because, fetch can return a new promise from over there, we can reduce some extra code like resolve here...
+  loadProductsFetch(),
   new Promise((resolve) => {
     loadCart(() => {
       resolve();

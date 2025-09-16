@@ -1,6 +1,6 @@
 import { renderOrderSummary } from '../../scripts/checkout/orderSummary.js';
 import { cart } from "../../data/cart-class.js";
-import { loadProducts } from '../../data/products.js';
+import { loadProductsFetch } from '../../data/products.js';
 
 //integration test
 describe('test suite: renderOrderSummary', () => {
@@ -13,7 +13,7 @@ describe('test suite: renderOrderSummary', () => {
 
   //beforeAll hooks
   beforeAll((done) => {
-    loadProducts(() => {
+    loadProductsFetch().then(() => {
       done();
     });
   });

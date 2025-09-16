@@ -85,6 +85,30 @@ export class Appliance extends Product {
 
 export let products = [];
 
+//using fetch, loading products from backend
+export function loadProductsFetch() {
+  //here, fetch by default sends a 'GET' request to the backend...fetch() is going to create a promise and we can use .then...it helps us to use against call back functions...
+  const promise = fetch('https://supersimplebackend.dev/products')
+    .then((response) => {
+      //response.json() -> returns a new promise
+      return response.json();
+    }).then((productsData) => {
+      products = productsData.map((productDetails) => {
+        if (productDetails.type === 'clothing') {
+          return new Clothing(productDetails);
+        }
+        if (productDetails.type === 'appliances') {
+          return new Appliance(productDetails);
+        }
+        return new Product(productDetails);
+      });
+
+      console.log('load products success!');
+    });
+  return promise;
+}
+
+/* using callBack, loading products from backend
 export function loadProducts(func) {
   const xhr = new XMLHttpRequest();
 
@@ -107,7 +131,7 @@ export function loadProducts(func) {
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 }
-
+*/
 
 /*
 export const products = [
