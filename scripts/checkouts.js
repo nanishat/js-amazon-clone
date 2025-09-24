@@ -2,7 +2,7 @@ import { loadProductsFetch } from "../data/products.js";
 import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
-import { loadCart } from "../data/cart.js";
+// import { loadCart } from "../data/abandoned/cart.js";
 
 async function loadPage() {
   try {
@@ -10,7 +10,7 @@ async function loadPage() {
 
     await loadProductsFetch();
 
-    await new Promise((resolve, reject) => {
+    /*await new Promise((resolve, reject) => {
       //throw 'error 2';
 
       //reject is a function, given by Promise class...where we can use it to run an error in future...
@@ -18,7 +18,7 @@ async function loadPage() {
         //reject('error 3');
         resolve();
       });
-    });
+    });*/
   } catch (error) {
     console.log('Unexpected error. Please try again later.');
     console.log(error);

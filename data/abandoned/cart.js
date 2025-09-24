@@ -1,4 +1,4 @@
-import { validDeliveryOption } from "./deliveryOptions.js";
+import { validDeliveryOption } from "../deliveryOptions.js";
 
 export let cart;
 
@@ -136,6 +136,7 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
   saveToStorage();
 }
 
+/* extra
 export function loadCart(func) {
   const xhr = new XMLHttpRequest();
 
@@ -148,3 +149,4 @@ export function loadCart(func) {
   xhr.open('GET', 'https://supersimplebackend.dev/cart');
   xhr.send();
 }
+*/
