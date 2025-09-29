@@ -8,6 +8,13 @@ async function loadPage() {
   try {
     //throw 'error 1';
 
+    /*
+    await Promise.all([
+      loadProductsFetch(),
+      loadCartFetch()
+    ]);
+    */
+
     await loadProductsFetch();
 
     /*await new Promise((resolve, reject) => {

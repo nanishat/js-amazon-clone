@@ -12,10 +12,8 @@ describe('test suite: renderOrderSummary', () => {
   const productName2 = 'Intermediate Size Basketball';
 
   //beforeAll hooks
-  beforeAll((done) => {
-    loadProductsFetch().then(() => {
-      done();
-    });
+  beforeAll(async () => {
+    await loadProductsFetch();
   });
 
   //beforeEach hooks
