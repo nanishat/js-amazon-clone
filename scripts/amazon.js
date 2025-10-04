@@ -18,7 +18,15 @@ function renderProductsGrid() {
 
   if (search) {
     filteredProduct = products.filter((product) => {
-      return product.name.includes(search);
+      let matchingKeyword = false;
+
+      product.keywords.forEach((keyword) => {
+        if (keyword.toLowerCase().includes(search.toLocaleLowerCase())) {
+          matchingKeyword = true;
+        }
+      });
+      return matchingKeyword ||
+        product.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
     })
   }
   //code for generate html for each product from products
