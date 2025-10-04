@@ -11,8 +11,18 @@ function renderProductsGrid() {
 
   let productsHTML = '';
 
+  const url = new URL(window.location.href);
+  const search = url.searchParams.get('search');
+
+  let filteredProduct = products;
+
+  if (search) {
+    filteredProduct = products.filter((product) => {
+      return product.name.includes(search);
+    })
+  }
   //code for generate html for each product from products
-  products.forEach((product) => {
+  filteredProduct.forEach((product) => {
     productsHTML +=
       `
         <div class="product-container">
@@ -98,4 +108,10 @@ function renderProductsGrid() {
   }
 
   updateCartQuantityUI();
+
+  document.querySelector('.js-search-button')
+    .addEventListener('click', () => {
+      const search = document.querySelector('.js-search-bar').value;
+      window.location.href = `index.html?search=${search}`;
+    })
 }
