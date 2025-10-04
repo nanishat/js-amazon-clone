@@ -28,6 +28,9 @@ async function loadPage() {
     productDetails.estimatedDeliveryTime
   );
   const percentProgress = ((today - orderTime) / (deliveryTime - orderTime)) * 100;
+  const deliveryMessage = (
+    today < deliveryTime ? 'Arriving on' : 'Delivered on'
+  )
 
   trackingHTML += `
   <a class="back-to-orders-link link-primary" href="orders.html">
@@ -35,7 +38,7 @@ async function loadPage() {
   </a>
 
   <div class="delivery-date">
-    Arriving on ${deliveryTime.format('dddd, MMMM d')}
+    ${deliveryMessage} ${deliveryTime.format('dddd, MMMM d')}
   </div>
 
   <div class="product-info">

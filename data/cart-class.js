@@ -110,7 +110,12 @@ class Cart {
 
     this.saveToStorage();
   }
+
+  resetCart() {
+    cart = [];
+    this.saveToStorage;
+  }
 }
 
 
-export const cart = new Cart('cart-oop');
+export let cart = new Cart('cart-oop');
